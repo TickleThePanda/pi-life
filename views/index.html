@@ -10,15 +10,20 @@
         width: 100%;
         height: 100%;
       }
+      #pusher {
+        display: none;
+      }
     </style>
   </head>
   <body>
+    <div id="pusher" data-key="{{PUSHKEY}}"></div>
     <canvas id="world"></canvas>
 
     <script src="https://js.pusher.com/3.2/pusher.min.js"></script>
       <script>
       (function () {
-        var PUSHER_KEY = <!FILL IN KEY HERE!>;
+        var pushConfig = document.getElementById('pusher').dataset;
+        var PUSHER_KEY = pushConfig.key;
         var Point = function(x,y) {
           this.x = x;
           this.y = y;
