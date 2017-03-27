@@ -28,17 +28,26 @@ app.get('/', (req, res) => {
   res.render('index', req);
 });
 
-setInterval(step, 10 * 1000);
-
 function step() {
   var data = {
     x: Math.random() * 0.6 + 0.2,
     y: Math.random() * 0.6 + 0.2
   };
-  console.log("data", data);
-  pusher.trigger('pi-life', 'food', data);
+  pusher.trigger('pi-life', 'food', data, r => { console.log(r) });
 }
+
+(function loop() {
+  var mid = 7 * 1000;
+  var max = 12 * 1000;
+  var range = (max - mid) * 2;
+  var rand = (Math.random() * range) - (range / 2) + mid;
+  setTimeout(() => {
+    step();
+    loop();
+  }, rand);
+})();
 
 app.listen(PORT, () => {
   console.log(`pi-life listening on port ${PORT}!`);
 });
+
